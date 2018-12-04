@@ -23,25 +23,16 @@ Any contributions you make to this effort are **greatly appreciated.**
 
 ## License & Copyright
 
-Othneil Drew – [LinkedIn](linkedin) – codeguydrew@gmail.com
+Othneil Drew – [LinkedIn](https://linkedin.com/in/othneildrew) – codeguydrew@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
-[https://github.com/othneildrew/GA-Aircraft-Accidents](project-link)
+[https://github.com/othneildrew/GA-Aircraft-Accidents](https://github.com/othneildrew/GA-Aircraft-Accidents)
 
 
 ## Acknowledgements
 
-* [National Transportation Safety Board](ntsb-link)
-* [JQuery](jquery-link)
-* [JVectorMap](jvectormap-link)
-* [Bootstrap](bootstrap-link)
-
-
-<!-- Markdown link & images -->
-[linkedin]: https://linkedin.com/in/othneildrew
-[project-link]: https://github.com/othneildrew/GA-Aircraft-Accidents
-[ntsb-link]: https://www.ntsb.gov
-[jquery-link]: https://jquery.com/
-[jvectormap-link]: http://jvectormap.com/
-[bootstrap-link]: https://getbootstrap.com
+* [National Transportation Safety Board](https://www.ntsb.gov)
+* [JQuery](https://jquery.com)
+* [JVectorMap](http://jvectormap.com)
+* [Bootstrap](https://getbootstrap.com)
