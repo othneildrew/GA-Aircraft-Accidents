@@ -9,7 +9,7 @@ $(function() {
   function getXMLData() {
     return $.ajax({
       method: 'GET',
-      url: '../assets/data/general-aviation-accidents.xml',
+      url: 'https://raw.githubusercontent.com/othneildrew/GA-Aircraft-Accidents/master/assets/data/general-aviation-accidents.xml',
       dataType: 'xml',
       async: false
     }).done(function(data) {
