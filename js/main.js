@@ -2,8 +2,13 @@ $(function() {
 
   let accidents = new Array();
 
+
+
+  init();
+
   function getXMLData() {
-    return $.get({
+    return $.ajax({
+      method: 'GET',
       url: '/assets/data/general-aviation-accidents.xml',
       dataType: 'xml',
       async: false
@@ -41,7 +46,7 @@ $(function() {
           let reportStatus = $(this).attr('ReportStatus');
           let publicationDate = $(this).attr('PublicationDate');
 
-          if(country === 'United States') {
+          if(investigationType === 'Accident' && country === 'United States' && farDescription === "Part 91: General Aviation") {
 
             accidents.push({
               accident_no: accidentNo,
@@ -78,81 +83,102 @@ $(function() {
 
 
 
-  getXMLData();
-
-  console.log(accidents);
 
 
-  // Initialize vector map
-  $('#map').vectorMap({
-    map: 'us_aea',
-    backgroundColor: '#1e88e5',
-    markerSelectable: true,
-    markerSelectableOne: true,
-    zoomMax: 6,
-    zoomMin: .6,
-    zoomAnimate: true,
-    regionsSelectable: true,
-    markersSelectable: true,
-    markersSelectableOne: true,
-    markerStyle:{
-      initial: {
-        fill: '#',
-        stroke: '#505050',
-        "fill-opacity": 1,
-        "stroke-width": 1,
-        "stroke-opacity": 1,
-        r: 5
+
+
+
+
+
+
+
+
+
+    function populateList() {
+
+      accidents.map(function(x) {
+        $('#accident-list').append('<div class="card accident-card rounded-0 m-3 border-top-0 border-left-0 border-right-0"><div class="card-body"><span class="badge badge-pill badge-danger">' + x.injuries.injury_severity + '</span><p class="mb-0" id="aircraft">' + x.aircraft + '</p><p class="m-0 text-muted" id="location">' + x.location + '</p><small id="accident-date">' + x.accident_date + '</small><!--<a href="#" class="float-right btn btn-dark btn-sm rounded-0">Show</a>--></div></div>');
+      });
+
+
+    }
+
+
+
+
+
+  function init() {
+    getXMLData();
+
+    // Initialize vector map
+    let map = $('#map').vectorMap({
+      map: 'us_aea',
+      backgroundColor: '#448aff',
+      markerSelectable: true,
+      markerSelectableOne: true,
+      zoomMax: 6,
+      zoomMin: .6,
+      zoomAnimate: true,
+      regionsSelectable: true,
+      markersSelectable: true,
+      markersSelectableOne: true,
+      markerStyle:{
+        initial: {
+          fill: '#f44336',
+          stroke: '#f44336',
+          "fill-opacity": 1,
+          "stroke-width": 2,
+          "stroke-opacity": 1,
+          r: 6
+        },
+        hover: {
+          fill: '#d32f2f',
+          stroke: '#d32f2f',
+          "stroke-width": 2,
+          cursor: 'pointer'
+        },
+        selected: {
+          fill: '#b71c1c',
+          stroke: '#b71c1c'
+        },
+        selectedHover: {
+        }
       },
-      hover: {
-        stroke: 'black',
-        "stroke-width": 2,
-        cursor: 'pointer'
-      },
-      selected: {
-        fill: 'blue'
-      },
-      selectedHover: {
+      markers: accidents.map(function(x) {
+        return { name: x.aircraft + ' (' + x.accident_date + ')', latLng: x.coords }
+      }),
+      updateSize: true,
+      onRegionSelected: function() {
+        if(window.localStorage) {
+          window.localStorage.setItem(
+            'jvectormap-selected-markers',
+            JSON.stringify(map.getSelectedRegions())
+          );
+        }
       }
-    },
-    markers: accidents.map(function(x) {
-      return { name: x.aircraft, latLng: x.coords }
-    }),
-    updateSize: true
+    });
+
+    populateList();
+  }
+
+
+
+
+
+
+  function closeDisclaimer() {
+    console.log('User agrees to disclaimer.')
+    $('#overlay-loader').fadeOut();
+  }
+
+
+
+
+  // Event Listeners
+  $('#map').on('click', '#continue', function() {
+    closeDisclaimer();
   });
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
-
-
-
-
-
-
-
-/* // Show only United States accidents
-if($(this).attr('Country') === 'United States') {
-  $('#accident-list').append('<div class="card accident-card rounded-0 m-3"><div class="card-body"><h5 class="card-title" id="aircraft">'+ aircraftNo + '</h5><h6 class="card-subtitle mb-2 text-muted" id="location">'+ location +'</h6><p class="card-text">Some quick example text to build on the card titland make up the bulk of the card\'s content.</p><small class="float-left" id="accident-date">'+ eventDate +'</small><a href="#" class="float-right btn btn-primary">Show</a></div></div>');
-}
-*/
